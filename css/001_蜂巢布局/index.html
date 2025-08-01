@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>001.蜂巢布局</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="line">
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+      </div>
+      <div class="line">
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+      </div>
+      <div class="line">
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+      </div>
+      <div class="line">
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+      </div>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const items = document.querySelectorAll(".item");
+        // 鼠标事件处理
+        document.querySelectorAll(".line").forEach((item, index) => {
+          const row = index;
+          item.querySelectorAll(".item").forEach((el, i) => {
+            el.dataset.row = row;
+            el.dataset.col = i;
+            el.dataset.position = `${row}-${i}`;
+            el.addEventListener("mouseover", (e) => {
+              const neighbors = [];
+              const row = +e.target.dataset.row;
+              const col = +e.target.dataset.col;
+              items.forEach((el) => el.classList.remove("active", "neighbor"));
+              e.target.classList.add("active");
+              neighbors.push(`${row}-${col - 1}`);
+              neighbors.push(`${row}-${col + 1}`);
+              if (row % 2 === 0) {
+                // 奇数行
+                neighbors.push(`${row - 1}-${col}`);
+                neighbors.push(`${row - 1}-${col + 1}`);
+                neighbors.push(`${row + 1}-${col}`);
+                neighbors.push(`${row + 1}-${col + 1}`);
+              } else {
+                // 偶数行
+                neighbors.push(`${row - 1}-${col}`);
+                neighbors.push(`${row - 1}-${col - 1}`);
+                neighbors.push(`${row + 1}-${col}`);
+                neighbors.push(`${row + 1}-${col - 1}`);
+              }
+              neighbors.forEach((pos) => {
+                const neighbor = document.querySelector(
+                  `.item[data-position="${pos}"]`
+                );
+                if (neighbor) {
+                  neighbor.classList.add("neighbor");
+                }
+              });
+            });
+          });
+        });
+      });
+    </script>
+  </body>
+</html>
